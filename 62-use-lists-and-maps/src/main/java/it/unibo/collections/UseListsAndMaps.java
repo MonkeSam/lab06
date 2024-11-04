@@ -17,7 +17,7 @@ public final class UseListsAndMaps {
     private UseListsAndMaps() {
     }
 
-    public long getTime() {
+    public static long getTime() {
         return System.nanoTime();
     }
 
@@ -65,14 +65,31 @@ public final class UseListsAndMaps {
          * using the previous lists. In order to measure times, use as example
          * TestPerformance.java.
          */
-        final Set<String> set = new TreeSet<>();
-        long time;
+        long time = getTime();
+        for (int i = 0; i < 100000; i++) {
+            ali.add(i);
+        }
         time = System.nanoTime() - time;
-        final var millis = TimeUnit.NANOSECONDS.toMillis(time);
+        var millis = TimeUnit.NANOSECONDS.toMillis(time);
         System.out.println(// NOPMD
-                "Converting "
-                        + set.size()
-                        + " ints to String and inserting them in a Set took "
+                "Inserting "
+                        + ali.size()
+                        + " ints in a ArrayList took "
+                        + time
+                        + "ns ("
+                        + millis
+                        + "ms)");
+
+        time = getTime();
+        for (int i = 0; i < 100000; i++) {
+            lli.add(i);
+        }
+        time = System.nanoTime() - time;
+        millis = TimeUnit.NANOSECONDS.toMillis(time);
+        System.out.println(// NOPMD
+                "Inserting "
+                        + lli.size()
+                        + " ints in a LinkedList took "
                         + time
                         + "ns ("
                         + millis
