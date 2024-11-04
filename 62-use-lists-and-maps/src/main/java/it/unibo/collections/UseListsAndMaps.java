@@ -17,8 +17,8 @@ public final class UseListsAndMaps {
     private UseListsAndMaps() {
     }
 
-    public void getTime() {
-
+    public long getTime() {
+        return System.nanoTime();
     }
 
     /**
@@ -30,32 +30,34 @@ public final class UseListsAndMaps {
          * 1) Create a new ArrayList<Integer>, and populate it with the numbers
          * from 1000 (included) to 2000 (excluded).
          */
+        final int START_INCLUDED = 1000;
+        final int END_EXCLUDED = 2000;
         List<Integer> ali = new ArrayList<>();
-        for (int i = 0; i < 1000; i++) {
-            ali.add(1000 + i);
+        for (int i = START_INCLUDED; i < END_EXCLUDED; i++) {
+            ali.add(i);
         }
         /*
          * 2) Create a new LinkedList<Integer> and, in a single line of code
          * without using any looping construct (for, while), populate it with
          * the same contents of the list of point 1.
          */
-        List<Integer> lli = new LinkedList<>();
-        lli = ali;
+        List<Integer> lli = ali;
         /*
          * 3) Using "set" and "get" and "size" methods, swap the first and last
          * element of the first list. You can not use any "magic number".
          * (Suggestion: use a temporary variable)
          */
-
         int tmp;
-        tmp = ali.get(ali.size() - 1);
-        ali.set(ali.size() - 1, ali.get(0));
-        ali.set(0, tmp);
-
+        tmp = ali.get(0);
+        ali.set(0, ali.size() - 1);
+        ali.set(ali.size() - 1, tmp);
         /*
          * 4) Using a single for-each, print the contents of the arraylist.
          */
-        System.out.println(ali);
+        for (Integer integer : ali) {
+            System.out.println(integer);
+        }
+
         /*
          * 5) Measure the performance of inserting new elements in the head of
          * the collection: measure the time required to add 100.000 elements as
@@ -63,29 +65,30 @@ public final class UseListsAndMaps {
          * using the previous lists. In order to measure times, use as example
          * TestPerformance.java.
          */
-        int elems = 100000;
-        /*
-         * Prepare a variable for measuring time
-         */
-        long time = System.nanoTime();
-        /*
-         * Run the benchmark
-         */
-        for (int i = 1; i <= elems; i++) {
-            ali.addFirst(i);
-        }
-        /*
-         * Compute the time and print result
-         */
+        final Set<String> set = new TreeSet<>();
+        long time;
         time = System.nanoTime() - time;
+        final var millis = TimeUnit.NANOSECONDS.toMillis(time);
         System.out.println(// NOPMD
                 "Converting "
-                        + elems
+                        + set.size()
                         + " ints to String and inserting them in a Set took "
                         + time
                         + "ns ("
-                        + TimeUnit.NANOSECONDS.toMillis(time)
+                        + millis
                         + "ms)");
+        /*
+         * Prepare a variable for measuring time
+         */
+
+        /*
+         * Run the benchmark
+         */
+
+        /*
+         * Compute the time and print result
+         */
+
         /*
          * 6) Measure the performance of reading 1000 times an element whose
          * position is in the middle of the collection for both ArrayList and
