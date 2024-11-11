@@ -1,6 +1,8 @@
 package it.unibo.collections;
 
+import java.security.KeyStore.Entry;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -15,10 +17,6 @@ import java.util.concurrent.TimeUnit;
 public final class UseListsAndMaps {
 
     private UseListsAndMaps() {
-    }
-
-    public static long getTime() {
-        return System.nanoTime();
     }
 
     /**
@@ -41,7 +39,7 @@ public final class UseListsAndMaps {
          * without using any looping construct (for, while), populate it with
          * the same contents of the list of point 1.
          */
-        List<Integer> lli = ali;
+        List<Integer> lli = new LinkedList<>(ali);
         /*
          * 3) Using "set" and "get" and "size" methods, swap the first and last
          * element of the first list. You can not use any "magic number".
@@ -65,9 +63,9 @@ public final class UseListsAndMaps {
          * using the previous lists. In order to measure times, use as example
          * TestPerformance.java.
          */
-        long time = getTime();
+        long time = System.nanoTime();
         for (int i = 0; i < 100000; i++) {
-            ali.add(i);
+            ali.addFirst(i);
         }
         time = System.nanoTime() - time;
         var millis = TimeUnit.NANOSECONDS.toMillis(time);
@@ -80,9 +78,9 @@ public final class UseListsAndMaps {
                         + millis
                         + "ms)");
 
-        time = getTime();
+        time = System.nanoTime();
         for (int i = 0; i < 100000; i++) {
-            lli.add(i);
+            lli.addFirst(i);
         }
         time = System.nanoTime() - time;
         millis = TimeUnit.NANOSECONDS.toMillis(time);
@@ -112,6 +110,37 @@ public final class UseListsAndMaps {
          * LinkedList, using the collections of point 5. In order to measure
          * times, use as example TestPerformance.java.
          */
+        time = System.nanoTime();
+
+        for (int i = 0; i < 1000; i++) {
+            ali.get(ali.size() / 2);
+        }
+        time = System.nanoTime() - time;
+        millis = TimeUnit.NANOSECONDS.toMillis(time);
+        System.out.println(// NOPMD
+                "Reading "
+                        + 1000
+                        + " ints in a ArrayList took "
+                        + time
+                        + "ns ("
+                        + millis
+                        + "ms)");
+
+        time = System.nanoTime();
+        for (int i = 0; i < 1000; i++) {
+
+            lli.get(lli.size() / 2);
+        }
+        time = System.nanoTime() - time;
+        millis = TimeUnit.NANOSECONDS.toMillis(time);
+        System.out.println(// NOPMD
+                "Reading "
+                        + 1000
+                        + " ints in a LinkedList took "
+                        + time
+                        + "ns ("
+                        + millis
+                        + "ms)");
         /*
          * 7) Build a new Map that associates to each continent's name its
          * population:
@@ -128,8 +157,19 @@ public final class UseListsAndMaps {
          *
          * Oceania -> 38,304,000
          */
+        Map<String, Long> world = new HashMap<>();
+        world.put("Africa", 111063500l);
+        world.put("Americas", 972005000l);
+        world.put("Asia", 4298723000l);
+        world.put("Antartica", 0l);
+        world.put("Europe", 742452000l);
+        world.put("Oceania", 38304000l);
         /*
          * 8) Compute the population of the world
          */
+        System.out.println("\nContinents Population");
+        for (Map.Entry<String, Long> e : world.entrySet()) {
+            System.out.println(e.getKey() + ": " + e.getValue() + " people");
+        }
     }
 }
