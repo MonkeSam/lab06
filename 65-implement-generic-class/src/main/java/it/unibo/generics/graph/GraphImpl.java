@@ -19,12 +19,14 @@ public class GraphImpl<N> implements Graph<N> {
 
     @Override
     public void addNode(N node) {
-        this.nodes.put(node, new HashSet<>());
+        this.nodes.putIfAbsent(node, new HashSet<>());
     }
 
     @Override
     public void addEdge(N source, N target) {
-        this.nodes.get(source).add(target);
+        if (this.nodes.containsKey(source) && this.nodes.get(source).contains(target)) {
+            this.nodes.get(source).add(target);
+        }
     }
 
     @Override
@@ -42,15 +44,17 @@ public class GraphImpl<N> implements Graph<N> {
         List<N> path = new ArrayList<>();
         N current = source;
         path.add(current);
-        do {
-            if (this.nodes.get(current).contains(target)) {
-                current = target;
-                path.add(source);
-            } else {
-                current = this.nodes.get(current).iterator().next();
-                path.add(current);
-            }
-        } while (current != target);
+        if (this.nodes.containsKey(source)) {
+            do {
+                if (this.nodes.get(current).contains(target)) {
+                    current = target;
+                    path.add(current);
+                } else {
+                    current = this.nodes.get(current).iterator().next();
+                    path.add(current);
+                }
+            } while (current != target);
+        }
         return path;
     }
 

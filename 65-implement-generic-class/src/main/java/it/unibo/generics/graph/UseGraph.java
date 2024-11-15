@@ -16,13 +16,13 @@ public final class UseGraph {
 
     /**
      * @param args
-     *            ignored
+     *             ignored
      */
     public static void main(final String... args) {
         /*
          * Test your graph implementation(s) by calling testGraph
          */
-        testGraph(null);
+        testGraph(new GraphImpl<String>());
     }
 
     private static void testGraph(final Graph<String> graph) {
@@ -49,14 +49,13 @@ public final class UseGraph {
          * Either the path b,c,a or b,c,d,e,a
          */
         assertIsAnyOf(
-            graph.getPath("b", "a"),
-            Arrays.asList(splitOnWhiteSpace("b c a")),
-            Arrays.asList(splitOnWhiteSpace("b c d e a"))
-        );
+                graph.getPath("b", "a"),
+                Arrays.asList(splitOnWhiteSpace("b c a")),
+                Arrays.asList(splitOnWhiteSpace("b c d e a")));
     }
 
     private static void assertIsAnyOf(final Object actual, final Object... valid) {
-        for (final var target: Objects.requireNonNull(valid)) {
+        for (final var target : Objects.requireNonNull(valid)) {
             if (Objects.equals(target, actual)) {
                 System.out.println("OK: " + actual + " matches " + target); // NOPMD
                 return;
